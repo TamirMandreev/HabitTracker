@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 
 from tracker.models import Habit
+from tracker.paginations import CustomPagination
 from tracker.serializers import HabitSerializer
 
 
@@ -14,6 +15,7 @@ class HabitCreateAPIView(CreateAPIView):
 class HabitListAPIView(ListAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
+    pagination_class = CustomPagination
 
 
 class HabitDetailAPIView(RetrieveAPIView):
