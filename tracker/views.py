@@ -3,6 +3,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView,
 
 from tracker.models import Habit
 from tracker.paginations import CustomPagination
+from tracker.permissions import IsUser
 from tracker.serializers import HabitSerializer
 
 
@@ -22,18 +23,22 @@ class HabitListAPIView(ListAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     pagination_class = CustomPagination
+    permission_classes = (IsUser,)
 
 
 class HabitDetailAPIView(RetrieveAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
+    permission_classes = (IsUser,)
 
 
 class HabitUpdateAPIView(UpdateAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
+    permission_classes = (IsUser,)
 
 
 class HabitDeleteAPIView(DestroyAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
+    permission_classes = (IsUser,)
