@@ -49,3 +49,7 @@ class HabitDeleteAPIView(DestroyAPIView):
     permission_classes = (IsUser,)
 
 
+class HabitPublicListAPIView(ListAPIView):
+    queryset = Habit.objects.filter(public=True)
+    serializer_class = HabitSerializer
+    pagination_class = CustomPagination
