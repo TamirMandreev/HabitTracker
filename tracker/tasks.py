@@ -23,5 +23,15 @@ def reminder_of_habit():
             send_telegram_message(tg_chat_id, message)
 
 
+@shared_task
+def information_about_today():
+    users = User.objects.all()
+    for user in users:
+        habits = user.habits.all()
+        message = 'Сегодня вам нужно выполнить: \n'
+        for habit in habits:
+            message += (f'{habit.action} в {habit.time} в {habit.place}\n')
+        send_telegram_message(user.tg_chat_id, message)
+
 
 
