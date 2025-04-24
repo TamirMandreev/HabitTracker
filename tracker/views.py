@@ -11,6 +11,12 @@ from tracker.serializers import HabitSerializer
 class HabitCreateAPIView(CreateAPIView):
     serializer_class = HabitSerializer
 
+    # Добавить автоматическое заполнение поля user
+    def perform_create(self, serializer):
+        habit = serializer.save()
+        habit.user = self.request.user
+        habit.save()
+
 
 class HabitListAPIView(ListAPIView):
     queryset = Habit.objects.all()
