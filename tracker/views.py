@@ -23,7 +23,12 @@ class HabitListAPIView(ListAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     pagination_class = CustomPagination
-    permission_classes = (IsUser,)
+
+    # Пользователь получает список только своих привычек
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Habit.objects.filter(user=user)
+        return queryset
 
 
 class HabitDetailAPIView(RetrieveAPIView):
@@ -42,3 +47,5 @@ class HabitDeleteAPIView(DestroyAPIView):
     queryset = Habit.objects.all()
     serializer_class = HabitSerializer
     permission_classes = (IsUser,)
+
+
