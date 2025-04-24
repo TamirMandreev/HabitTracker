@@ -11,11 +11,14 @@ class HabitSerializer(ModelSerializer):
     class Meta:
         model = Habit
         fields = '__all__'
-        validators = [ExcludeRelatedRewardValidator(),
-                      LinkRelatedNiceValidator(),]
+        validators = [LinkRelatedNiceValidator(),]
 
     def validate(self, data):
-        validator = ExcludeNiceRewardOrRelatedValidator(self.instance)
-        validator(data)
+        first_validator = ExcludeNiceRewardOrRelatedValidator(self.instance)
+        first_validator(data)
+
+        second_validator = ExcludeRelatedRewardValidator(self.instance)
+        second_validator(data)
+
         return data
 

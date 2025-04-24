@@ -7,10 +7,12 @@ class ExcludeRelatedRewardValidator:
     одновременно присутствуют два поля: "related_habit" и "reward"
     '''
 
-    def __init__(self):
+    def __init__(self, object=None):
         # Указываем наименования полей
         self.related_habit_name = 'related_habit' # Имя поля, которое обозначает связанную привычку
         self.reward_name = 'reward' # Имя поля, которое обозначает награду
+
+        self.object = object # Экземпляр модели, в которую вносятся изменения
 
     def __call__(self, data):
         related_habit = data.get(self.related_habit_name) # Получаем значение поля related_habit из переданных данных
@@ -20,6 +22,17 @@ class ExcludeRelatedRewardValidator:
             raise ValidationError(f'Невозможно одновременно выбрать '
                                   f'"{self.related_habit_name}" и "{self.reward_name}". '
                                   f'Выберете только одно')
+        elif reward:
+            if self.object:
+                if self.object.related_habit:
+                    raise ValidationError(f'Невозможно одновременно выбрать '
+                                      f'"{self.related_habit_name}" и "{self.reward_name}". '
+                                      f'Выберете только одно')
+        elif related_habit:
+            if self.object.nice:
+                raise ValidationError(f'Невозможно одновременно выбрать '
+                                      f'"{self.related_habit_name}" и "{self.reward_name}". '
+                                      f'Выберете только одно')
 
 
 class LinkRelatedNiceValidator:
@@ -53,17 +66,19 @@ class ExcludeNiceRewardOrRelatedValidator:
     Исключает ситуацию, когда в объекте модели Habit
     поля nice==True и related_habit==True или reward==True
     '''
-    def __init__(self, object):
+    def __init__(self, object=None):
         self.object = object
 
     def __call__(self, data):
         if data.get('nice'):
             if data.get('related_habit') or data.get('reward'):
                raise ValidationError('У приятной привычки не может быть вознаграждения или связанной привычки.')
-            elif self.object.related_habit or self.object.reward:
-               raise ValidationError('У приятной привычки не может быть вознаграждения или связанной привычки.')
+               if self.object:
+                   if self.object.related_habit or self.object.reward:
+                       raise ValidationError('У приятной привычки не может быть вознаграждения или связанной привычки.')
         elif data.get('related_habit') or data.get('reward'):
-            if self.object.nice:
-               raise ValidationError('У приятной привычки не может быть вознаграждения или связанной привычки.')
+            if self.object:
+                if self.object.nice:
+                   raise ValidationError('У приятной привычки не может быть вознаграждения или связанной привычки.')
 
 
