@@ -20,6 +20,7 @@ redis = "^5.2.1"
 requests = "^2.32.3"
 django-celery-beat = "^2.8.0"
 django-cors-headers = "^4.7.0"
+drf-yasg = "^1.21.10"
 
 
 [build-system]

@@ -2,16 +2,19 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from tracker.models import Habit
-from tracker.validators import ExcludeRelatedRewardValidator, LinkRelatedNiceValidator, \
-    ExcludeNiceRewardOrRelatedValidator
+from tracker.validators import (ExcludeNiceRewardOrRelatedValidator,
+                                ExcludeRelatedRewardValidator,
+                                LinkRelatedNiceValidator)
 
 
 class HabitSerializer(ModelSerializer):
 
     class Meta:
         model = Habit
-        fields = '__all__'
-        validators = [LinkRelatedNiceValidator(),]
+        fields = "__all__"
+        validators = [
+            LinkRelatedNiceValidator(),
+        ]
 
     def validate(self, data):
         first_validator = ExcludeNiceRewardOrRelatedValidator(self.instance)
@@ -21,4 +24,3 @@ class HabitSerializer(ModelSerializer):
         second_validator(data)
 
         return data
-

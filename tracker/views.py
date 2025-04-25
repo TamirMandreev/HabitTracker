@@ -1,12 +1,14 @@
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
+from rest_framework.generics import (CreateAPIView, DestroyAPIView,
+                                     ListAPIView, RetrieveAPIView,
+                                     UpdateAPIView)
 
 from tracker.models import Habit
 from tracker.paginations import CustomPagination
 from tracker.permissions import IsUser
 from tracker.serializers import HabitSerializer
 
-
 # Create your views here.
+
 
 class HabitCreateAPIView(CreateAPIView):
     serializer_class = HabitSerializer
