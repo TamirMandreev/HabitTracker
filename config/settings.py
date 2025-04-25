@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
 
+    'corsheaders',
+
     'users',
     'tracker',
 ]
@@ -58,7 +60,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:8000']
+CSRF_TRUSTED_ORIGINS = []
 
 ROOT_URLCONF = 'config.urls'
 
