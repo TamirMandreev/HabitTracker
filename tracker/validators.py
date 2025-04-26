@@ -59,15 +59,18 @@ class LinkRelatedNiceValidator:
         self.related_habit_name = (
             "related_habit"  # Имя поля, которое обозначает связанную привычку
         )
-        self.nice_name = "nice"  # Имя поля, которое обозначает приятную привычку
+        self.nice_name = (
+            "nice"  # Имя поля, которое обозначает приятную привычку
+        )
 
     def __call__(self, data):
         related_habit = data.get(
             self.related_habit_name
-        )  # Получаем значение поля related_habit из переданных данных. Это объект модели Habit.
+        )  # Получаем значение поля related_habit
+        # из переданных данных. Это объект модели Habit.
 
         if related_habit:
-            if related_habit.nice == False:
+            if not related_habit.nice:
                 raise ValidationError(
                     "В связанные привычки могут попадать "
                     "только привычки с признаком приятной привычки."
@@ -90,16 +93,19 @@ class ExcludeNiceRewardOrRelatedValidator:
         if data.get("nice"):
             if data.get("related_habit") or data.get("reward"):
                 raise ValidationError(
-                    "У приятной привычки не может быть вознаграждения или связанной привычки."
+                    "У приятной привычки не может быть вознаграждения "
+                    "или связанной привычки."
                 )
                 if self.object:
                     if self.object.related_habit or self.object.reward:
                         raise ValidationError(
-                            "У приятной привычки не может быть вознаграждения или связанной привычки."
+                            "У приятной привычки не может быть "
+                            "вознаграждения или связанной привычки."
                         )
         elif data.get("related_habit") or data.get("reward"):
             if self.object:
                 if self.object.nice:
                     raise ValidationError(
-                        "У приятной привычки не может быть вознаграждения или связанной привычки."
+                        "У приятной привычки не может быть "
+                        "вознаграждения или связанной привычки."
                     )

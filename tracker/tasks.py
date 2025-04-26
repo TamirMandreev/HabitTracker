@@ -13,9 +13,12 @@ def reminder_of_habit():
     habits = Habit.objects.all()
     # Получить текущую дату и время
     current_time = datetime.now()
-    # Преобразовать current_time в формат "20:00:00". Дата убирается, остается только время.
+    # Преобразовать current_time в формат "20:00:00".
+    # Дата убирается, остается только время.
     valid_current_time = time(
-        hour=current_time.hour, minute=current_time.minute, second=current_time.second
+        hour=current_time.hour,
+        minute=current_time.minute,
+        second=current_time.second,
     )
 
     for habit in habits:

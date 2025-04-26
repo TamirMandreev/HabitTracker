@@ -6,7 +6,11 @@ from tracker.apps import TrackerConfig
 app_name = TrackerConfig.name
 
 urlpatterns = [
-    path("habits/create/", views.HabitCreateAPIView.as_view(), name="habit-create"),
+    path(
+        "habits/create/",
+        views.HabitCreateAPIView.as_view(),
+        name="habit-create",
+    ),
     path("habits/list/", views.HabitListAPIView.as_view(), name="habit-list"),
     path(
         "habits/list/public/",

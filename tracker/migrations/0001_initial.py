@@ -91,7 +91,8 @@ class Migration(migrations.Migration):
                     "time_to_complete",
                     models.PositiveSmallIntegerField(
                         blank=True,
-                        help_text="Укажите время, необходимое для выполнения действия",
+                        help_text="Укажите время, необходимое "
+                                  "для выполнения действия",
                         null=True,
                         validators=[
                             django.core.validators.MinValueValidator(1),
@@ -110,7 +111,8 @@ class Migration(migrations.Migration):
                     "related_habit",
                     models.ForeignKey(
                         blank=True,
-                        help_text="Выберете другие привычки, связанные с данной",
+                        help_text="Выберете другие привычки, "
+                                  "связанные с данной",
                         null=True,
                         on_delete=django.db.models.deletion.SET_NULL,
                         to="tracker.habit",

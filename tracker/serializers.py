@@ -1,10 +1,11 @@
-from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from tracker.models import Habit
-from tracker.validators import (ExcludeNiceRewardOrRelatedValidator,
-                                ExcludeRelatedRewardValidator,
-                                LinkRelatedNiceValidator)
+from tracker.validators import (
+    ExcludeNiceRewardOrRelatedValidator,
+    ExcludeRelatedRewardValidator,
+    LinkRelatedNiceValidator,
+)
 
 
 class HabitSerializer(ModelSerializer):
