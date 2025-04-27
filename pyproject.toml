@@ -33,7 +33,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
-python_files = ["tests"]
+python_files = ["tests", "tests.py", "test_*.py", "*_tests.py"]
 addopts = "-p no:django_tests"
 
 [tool.black]

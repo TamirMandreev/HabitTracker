@@ -78,6 +78,9 @@ class Habit(models.Model):
         verbose_name="Публичная или нет",
     )
 
+    def __str__(self):
+        return self.action
+
     class Meta:
         verbose_name = "Привычка"
         verbose_name_plural = "Привычки"
