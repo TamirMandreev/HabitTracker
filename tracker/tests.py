@@ -36,7 +36,7 @@ def test_create_habit(api_client):
     # Выполнить проверки
     assert response.status_code == status.HTTP_201_CREATED
     assert Habit.objects.count() == 1
-    habit = Habit.objects.get(place="На улице")
+    habit = Habit.objects.get(id=1)
     assert habit.place == data["place"]
     assert habit.time == datetime.strptime(data["time"], "%H:%M").time()
     assert habit.action == data["action"]
@@ -133,20 +133,21 @@ def test_update_habit(api_client):
     # Аутентифицировать пользователя
     api_client.force_authenticate(user=user)
     # Создать привычку
-    api_client.post(reverse("tracker:habit-create"), data, format="json")
+    create_response = api_client.post(reverse("tracker:habit-create"), data, format="json")
+    habit_id = create_response.data['id']
 
     # Создать данные для обновления
     updated_data = {"place": "Дома"}
 
     # Отправить запрос на обновление
     response = api_client.patch(
-        reverse("tracker:habit-update", kwargs={"pk": 6}),
+        reverse("tracker:habit-update", kwargs={"pk": habit_id}),
         updated_data,
         format="json",
     )
 
     # Получить экземпляр модели Habit
-    habit = Habit.objects.get(pk=6)
+    habit = Habit.objects.get(pk=habit_id)
 
     assert response.status_code == status.HTTP_200_OK
     assert habit.place == updated_data["place"]
@@ -167,11 +168,11 @@ def test_delete_habit(api_client):
     # Аутентифицировать пользователя
     api_client.force_authenticate(user=user)
     # Создать привычку
-    api_client.post(reverse("tracker:habit-create"), data, format="json")
-
+    create_response = api_client.post(reverse("tracker:habit-create"), data, format="json")
+    habit_id = create_response.data['id']
     # Отправить запрос на удаление
     response = api_client.delete(
-        reverse("tracker:habit-delete", kwargs={"pk": 7}), format="json"
+        reverse("tracker:habit-delete", kwargs={"pk": habit_id}), format="json"
     )
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
@@ -192,11 +193,12 @@ def test_detail_habit(api_client):
     # Аутентифицировать пользователя
     api_client.force_authenticate(user=user)
     # Создать привычку
-    api_client.post(reverse("tracker:habit-create"), data, format="json")
+    create_response = api_client.post(reverse("tracker:habit-create"), data, format="json")
+    habit_id = create_response.data['id']
 
     # Отправить запрос на получение объекта модели Habbit
     response = api_client.get(
-        reverse("tracker:habit-detail", kwargs={"pk": 8}), format="json"
+        reverse("tracker:habit-detail", kwargs={"pk": habit_id}), format="json"
     )
 
     assert response.status_code == status.HTTP_200_OK
