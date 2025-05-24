@@ -6,7 +6,7 @@ authors = ["Tamir Mandreev <tamirmandreev@mail.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 django = "^4.2"
 djangorestframework = "^3.16.0"
 python-dotenv = "^1.1.0"
