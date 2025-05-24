@@ -36,7 +36,7 @@ def test_create_habit(api_client):
     # Выполнить проверки
     assert response.status_code == status.HTTP_201_CREATED
     assert Habit.objects.count() == 1
-    habit = Habit.objects.get(id=1)
+    habit = Habit.objects.get(place="На улице")
     assert habit.place == data["place"]
     assert habit.time == datetime.strptime(data["time"], "%H:%M").time()
     assert habit.action == data["action"]
